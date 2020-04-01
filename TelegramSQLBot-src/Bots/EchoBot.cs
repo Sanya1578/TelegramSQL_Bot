@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using System.Data.SQLite;
+using System.IO;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -52,6 +54,17 @@ namespace Microsoft.BotBuilderSamples.Bots
                     break;
                 case "INSERT INTO":
                     await turnContext.SendActivityAsync(MessageFactory.Text(commands[3] + " ..."), cancellationToken);
+                    break;
+                case "DB":
+                    if (!File.Exists(@"Bots/MY_DATABASE.db"))
+                    {
+                        SQLiteConnection.CreateFile(@"Bots/MY_DATABASE.db");
+                        await turnContext.SendActivityAsync(MessageFactory.Text("DATABASE WAS CREATED"), cancellationToken);
+                    }
+                    else
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("DATABASE EXISTS"), cancellationToken);
+                    }
                     break;
             }
         }
