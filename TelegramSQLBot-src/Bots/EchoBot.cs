@@ -13,9 +13,13 @@ namespace Microsoft.BotBuilderSamples.Bots
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            string[] commands = { "SELECT",  "UPDATE", "CREATE TABLE", "INSERT INTO"};
+
             var name = turnContext.Activity.From.Name;
             var replyText = $"Hi, " + name;
+            string[] commands = {
+            "SELECT", "UPDATE", "CREATE TABLE", "INSERT INTO", "DROP TABLE"
+            };
+
             switch(turnContext.Activity.Text)
             {
                 case "/start":
